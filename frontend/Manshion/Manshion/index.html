@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="myApp" lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <title>中古マンションの簡易評価査定サービス</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.js"></script>
+    <script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="utf-8"></script>
+    <script src="app.js"></script>
+    <script src="inparam_controller.js"></script>
+    <script src="prediction_controller.js"></script>
+    <script src="error_controller.js"></script>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-87984629-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+</head>
+<body ng-controller="PredictionCtrl as main">
+    <header>
+        <h1>中古マンション購入・売却のための簡易評価サービス</h1>
+        <div class="header"></div>
+        <p></p>
+        <p>個人情報の入力は<span class="bold">一切不要</span>で、お気軽に中古マンションの価格を即時に評価します！</p>
+        <p>本サービスは、<a href="agreement.html">ご利用規約</a>に同意された場合のみ利用することができます。</p>
+    </header>
+
+    <section class="content">
+        <h2>中古マンションの情報</h2>
+        <p>以下の入力欄に中古マンションの情報を入力して下さい。</p>
+        <p>査定可能な都道府県は、<b>東京都</b>、<b>神奈川県</b>、<b>埼玉県</b>、<b>千葉県</b>のみです。</p>
+        <table id="mansion_info" ng-controller="InParamCtrl">
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>郵便番号(7桁)</td>
+                    <td>
+                        <input type="number" name="zip11" ng-model="zip_addr.zip" size="9" maxlength="8">
+                        <button ng-click="clickSearchAddress()">郵便番号から住所を入力する</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div>必須</div></td>
+                    <td>住所</td>
+                    <td>
+                        <input type="text" name="addr11" ng-model="main.addr" size="60">
+                    </td>
+                </tr>
+                <tr>
+                    <td><div>必須</div></td>
+                    <td>築年数</td>
+                    <td><input type="number" id="year" ng-model='main.year' size="4"></td>
+                </tr>
+                <tr>
+                    <td><div>必須</div></td>
+                    <td>占有面積(㎡)</td>
+                    <td><input type="number" id="occupied" ng-model='main.occupied' size="4"></td>
+                </tr>
+                <tr>
+                    <td><div>必須</div></td>
+                    <td>駅まで徒歩(分)</td>
+                    <td><input type="number" id="walk" ng-model='main.walk' size="4"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="action_area">
+            <button ng-click="clickPrediction()" id="predict">▽ 評価を見る</button>
+        </div>
+
+        <div id="price_area">
+            <table id="price_table">
+                <tbody>
+                    <tr>
+                        <td>予測価格</td>
+                        <td>
+                            {{main.price | number}}<small>万円</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>価格範囲</td>
+                        <td>
+                            {{main.price_low | number}}<small>万円</small>
+                            ～
+                            {{main.price_high | number}}<small>万円</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p>
+                                ※この予想価格および価格範囲は、独自のアルゴリズムで計算した価格であり、
+                                マンションの販売価格を保証するものではございません。
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section>
+        <h2>参考情報</h2>
+        <p>入力情報を元に実際に中古マンションの売却サイトに掲載されていた物件の情報を表示します。</p>
+        <table id='references'>
+            <thead>
+                <tr>
+                    <th>住所</th>
+                    <th>築年</th>
+                    <th>面積(㎡)</th>
+                    <th>駅</th>
+                    <th>徒歩(分)</th>
+                    <th>掲載金額(万円)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ref in main.references">
+                    <td>{{ref.address}}</td>
+                    <td>{{ref.year}}</td>
+                    <td>{{ref.occupiedArea}}</td>
+                    <td>{{ref.station}}</td>
+                    <td>{{ref.walkTime}}</td>
+                    <td>{{ref.price | number}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <section ng-controller="ErrorCtrl">
+        <h2>予測結果の信頼度</h2>
+        <div id="error_rate_area">
+            <p><small>当サイトの予測システムを用いて、中古マンションサイトの掲載情報(2016/11/23時点,掲載数: 23,054件)を予測した場合の誤差は下記の通りです。</small></p>
+            <table id="error_rate">
+                <thead>
+                    <tr><th>誤差率</th><th>件数</th><th>割合</th></tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="error in error_list">
+                        <td>{{error.class}}</td>
+                        <td>{{error.count | number}}</td>
+                        <td>{{error.percentage}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+    <footer>
+        <small>Copyright © 2016 飯塚ソフト開発 All Right Reserved.</small><br />
+        <small>iizuka.soft.dev@gmail.com</small>
+    </footer>
+</body>
+</html>

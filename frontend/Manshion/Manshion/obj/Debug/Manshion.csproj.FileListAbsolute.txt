@@ -1,0 +1,6 @@
+V:\work\myprivaterep\client_angular\Manshion\Manshion\bin\Manshion.dll.config
+V:\work\myprivaterep\client_angular\Manshion\Manshion\bin\Manshion.dll
+V:\work\myprivaterep\client_angular\Manshion\Manshion\bin\Manshion.pdb
+V:\work\myprivaterep\client_angular\Manshion\Manshion\obj\Debug\Manshion.csprojResolveAssemblyReference.cache
+V:\work\myprivaterep\client_angular\Manshion\Manshion\obj\Debug\Manshion.dll
+V:\work\myprivaterep\client_angular\Manshion\Manshion\obj\Debug\Manshion.pdb

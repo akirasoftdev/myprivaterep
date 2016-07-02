@@ -1,0 +1,3 @@
+model_checkpoint_path: "/tensorflow_dev/data32_16/best_model_best.ckpt"
+all_model_checkpoint_paths: "/tensorflow_dev/data32_16/model.ckpt"
+all_model_checkpoint_paths: "/tensorflow_dev/data32_16/best_model_best.ckpt"

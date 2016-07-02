@@ -1,0 +1,175 @@
+﻿* { margin: 0; padding: 0;}
+
+html, body {
+  width: 980px;
+  height: 100%;
+  padding: 4px;
+  margin: 8px;
+}
+
+button {
+    padding:4px;
+}
+
+h1 {
+	position: relative;
+	padding: 0 .4em .1em;
+	margin-bottom: 8px;
+}
+
+h2 {
+    position: relative;
+    padding: .75em 1em .75em 1.5em;
+}
+
+h2::after {
+	position: absolute;
+	top: .5em;
+	left: .5em;
+	content: '';
+	width: 6px;
+	height: -webkit-calc(100% - 1em);
+	height: calc(100% - 1em);
+	background-color: #3498db;
+	border-radius: 4px;
+}
+
+
+.bold {
+    color: red;
+}
+
+section {
+    margin-top: 40px;
+}
+
+section > ol {
+    margin-left: 20px;
+}
+
+#mansion_info {
+    border-collapse: collapse;
+    padding: 0px;
+    margin: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+#mansion_info > tbody > tr, td {
+    border-collapse: collapse;
+    padding: 5px;
+    margin: 0px;
+}
+
+#mansion_info > tbody > tr {
+    border: 1px solid gray;
+}
+
+#mansion_info > tbody > tr > td:nth-child(2)  {
+    border-right: 1px solid gray;
+}
+
+#mansion_info > tbody > tr > td:nth-child(1) > div {
+    padding-left:4px;
+    background-color:red;
+    color:white;
+    -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+}
+
+
+#action_area {
+    width: 100%;
+    height: 60px;
+    text-align: center;
+}
+
+
+#price_area {
+    width: 100%;
+    padding: 16px;
+}
+
+#predict {
+    width: 80%;
+    height: 50px;
+    font-size:24px;
+    font-weight:bold;
+    text-decoration:none;
+    text-align:center;
+    padding:8px 0 10px;
+    color:#fff;
+    background-color:#3498db;
+    border-radius:5px;
+}
+
+
+#price_area > table {
+    border-collapse: collapse;
+    width: 60%;
+    margin:auto;
+    font-size: x-large;
+}
+
+#price, #low, #high {
+    font-size: large;
+}
+
+
+#references {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: small;
+}
+
+#references > tbody > tr > td {
+    border: 1px solid gray;
+}
+
+#error_rate_area {
+    width: 100%;
+}
+
+#error_rate {
+    border-collapse: collapse;
+    font-size: small;
+    width: 80%;
+    margin:auto;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+#error_rate > tbody > tr > td {
+    border: 1px solid gray;
+}
+
+.header {
+    background: #444;
+    color: white;
+    height: 8px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+footer {
+    margin-top: 40px;
+}
+footer, .push {
+    background: #444;
+    color: white;
+	height: 32px;
+	width: 100%;
+	padding: 8px;
+	text-align: center;
+}
+
+footer > small:nth-child(3) {
+    font-size: xx-small;
+}
+
+#low, #high, #price {
+    border: none;
+    text-align: center;
+}

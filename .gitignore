@@ -1,0 +1,9 @@
+*.pyc
+*.gml
+*.png
+learn/*.csv
+chart/*.csv
+db/*.sql
+rosenka/work/*.csv
+backend/deploy/*
+

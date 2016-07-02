@@ -1,0 +1,51 @@
+import os
+import re
+
+from test_opencv.load_pattern import LoadPattern
+
+
+class ReadProperties(object):
+    def __init__(self):
+        self.patterns = {}
+        min_w = 999
+        max_w = 0
+        min_h = 999
+        max_h = 0
+        min_area = 999
+        max_area = 0
+        min_cx = 999
+        max_cx = 0
+        min_cy = 999
+        max_cy = 0
+
+        BASE_DIR='./work/'
+        files_map = {}
+        files_map['0'] = os.listdir(BASE_DIR + 'F')
+        for char, files in files_map.items():
+            for file in files:
+                w, h, area, cx, cy = re.compile(
+                    '^(\d+)\-(\d+)_(\d+\.\d)_(\d+\.\d+)\-(\d+.\d+).*$').search(file).groups()
+                min_w = min(int(w), min_w)
+                max_w = max(int(w), max_w)
+                min_h = min(int(h), min_h)
+                max_h = max(int(h), max_h)
+                min_area = min(float(area), min_area)
+                max_area = max(float(area), max_area)
+                min_cx = min(float(cx), min_cx)
+                max_cx = max(float(cx), max_cx)
+                min_cy = min(float(cy), min_cy)
+                max_cy = max(float(cy), max_cy)
+        print('min_w = ' + str(min_w))
+        print('max_w = ' + str(max_w))
+        print('min_h = ' + str(min_h))
+        print('max_h = ' + str(max_h))
+        print('min_area = ' + str(min_area))
+        print('max_area = ' + str(max_area))
+        print('min_cx = ' + str(min_cx))
+        print('max_cx = ' + str(max_cx))
+        print('min_cy = ' + str(min_cy))
+        print('max_cy = ' + str(max_cy))
+        print('%d, %d, %d, %d, %.1f, %.1f, %.3f, %.3f, %.3f, %.3f' % (min_w, max_w, min_h, max_h, min_area, max_area, min_cx, max_cx, min_cy, max_cy))
+
+if __name__ == '__main__':
+    ReadProperties()

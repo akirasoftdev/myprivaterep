@@ -1,0 +1,17 @@
+branch-defaults:
+  default:
+    environment: null
+    group_suffix: null
+environment-defaults:
+  Custom-env-1:
+    branch: null
+    repository: null
+global:
+  application_name: mansion_prediction
+  branch: null
+  default_ec2_keyname: null
+  default_platform: 64bit Amazon Linux 2016.09 v2.2.0 running Python 3.4
+  default_region: ap-northeast-1
+  profile: null
+  repository: null
+  sc: null

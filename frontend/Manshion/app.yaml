@@ -1,0 +1,44 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /
+  static_files: Manshion/index.html
+  upload: Manshion/index.html
+
+- url: /agreement.html
+  static_files: Manshion/agreement.html
+  upload: Manshion/agreement.html
+
+- url: /app.css
+  static_files: Manshion/app.css
+  upload: Manshion/app.css
+
+- url: /app.js
+  static_files: Manshion/app.js
+  upload: Manshion/app.js
+
+- url: /prediction_controller.js
+  static_files: Manshion/prediction_controller.js
+  upload: Manshion/prediction_controller.js
+
+- url: /inparam_controller.js
+  static_files: Manshion/inparam_controller.js
+  upload: Manshion/inparam_controller.js
+
+- url: /error_controller.js
+  static_files: Manshion/error_controller.js
+  upload: Manshion/error_controller.js
+
+- url: /googlec4011ab7fc110731.html
+  static_files: Manshion/googlec4011ab7fc110731.html
+  upload: Manshion/googlec4011ab7fc110731.html
+
+- url: /sitemap.xml
+  static_files: Manshion/sitemap.xml
+  upload: Manshion/sitemap.xml
+
+- url: /.*
+  script: main.APP
+

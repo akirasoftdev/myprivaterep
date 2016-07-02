@@ -1,0 +1,31 @@
+EnvironmentConfigurationMetadata:
+  Description: Configuration created from the EB CLI using "eb config save".
+  DateCreated: '1480456934000'
+  DateModified: '1480456934000'
+SolutionStack: 64bit Amazon Linux 2016.09 v2.2.0 running Python 2.7
+OptionSettings:
+  AWSEBSecurityGroup.aws:ec2:vpc:
+    VPCId: vpc-e812e78c
+  aws:elasticbeanstalk:application:environment:
+    RDS_HOSTNAME: iizuka-fudosan.cvtxsoo4rfox.ap-northeast-1.rds.amazonaws.com
+    RDS_PASSWORD: sJk5j2KEUKtXsloS
+    RDS_PORT: '3306'
+    RDS_DB_NAME: iizuka-fudosan
+    RDS_USERNAME: akira_iizuka
+  aws:elasticbeanstalk:environment:
+    ServiceRole: aws-elasticbeanstalk-service-role
+    EnvironmentType: SingleInstance
+  aws:elasticbeanstalk:healthreporting:system:
+    SystemType: enhanced
+  aws:ec2:vpc:
+    Subnets: subnet-84e41bdc,subnet-c942e9bf
+    AssociatePublicIpAddress: null
+  aws:autoscaling:launchconfiguration:
+    SecurityGroups: sg-e0766c84,sg-7c389f1b
+    IamInstanceProfile: aws-elasticbeanstalk-ec2-role
+  AWSEBAutoScalingLaunchConfiguration.aws:autoscaling:launchconfiguration:
+    EC2KeyName: mansion_key_pair
+EnvironmentTier:
+  Type: Standard
+  Name: WebServer
+AWSConfigurationTemplateVersion: 1.1.0.0
