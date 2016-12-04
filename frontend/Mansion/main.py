@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import webapp2
 
-from frontend.Manshion.get_how_much import QueryHandler
+from get_how_much import GetHowMuchHandler
+from error_rate import GetErrorRateHandler
 
 APP = webapp2.WSGIApplication([
-    ('/howmuch', QueryHandler),
+    ('/howmuch', GetHowMuchHandler),
+    ('/error_rate', GetErrorRateHandler)
 ], debug=True)

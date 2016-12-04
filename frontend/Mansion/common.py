@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import json
-from datetime import datetime
-
 import webapp2
+from datetime import datetime
 from google.appengine.ext import db
 
-MAX_COUNT_PER_DAY = 10000
+import consts
 
 
 class Count(db.Model):
@@ -24,7 +23,7 @@ class RestHandler(webapp2.RequestHandler):
         self.response.write(json.dumps(r))
 
 
-def check_access_count(self):
+def check_access_count():
     today = datetime.today().date()
     a = Count.all()
     a.filter('date = ', today)
@@ -33,10 +32,30 @@ def check_access_count(self):
         b.put()
         print('count_of_howmuch = ' + str(b.count_of_howmuch))
         print('date = ' + str(b.date))
-        return MAX_COUNT_PER_DAY > b.count_of_howmuch
+        return consts.MAX_COUNT_PER_DAY > b.count_of_howmuch
 
     if a.count() == 0:
         print(str(today))
         e = Count(count_of_howmuch=0, date=today)
         e.put()
     return True
+
+
+class ErrorRateCache(db.Model):
+    error_rates = db.ByteStringProperty(required=True)
+    date = db.DateProperty(required=True)
+
+
+def get_error_rate_cache(date_str):
+    date = datetime.strptime(date_str, '%Y-%m-%d').date()
+    a = ErrorRateCache.all()
+    a.filter('date = ', date)
+    for b in a.run():
+        return json.loads(b.error_rates)
+    return None
+
+
+def set_error_rate(error_rate, date_str):
+    date = datetime.strptime(date_str, '%Y-%m-%d').date()
+    e = ErrorRateCache(error_rates=json.dumps(error_rate), date=date)
+    e.put()

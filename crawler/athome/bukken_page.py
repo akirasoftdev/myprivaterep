@@ -146,8 +146,12 @@ class BukkenPage(object):
                     params['title'] = bukken_urls[i].text
                     params['address'] = address_array[i].text
                     params['prefecture_id'] = self.prefecture_id
-                    params['city_id'] = self.find_city_id(params['address'], self.prefecture_id)
-                    params['town_id'] = self.find_town_id(params['address'], params['city_id'])
+                    try:
+                        params['city_id'] = self.find_city_id(params['address'], self.prefecture_id)
+                        params['town_id'] = self.find_town_id(params['address'], params['city_id'])
+                    except Exception as e:
+                        print(e)
+                        continue
                     floors = FloorParser.parse(floors_array[i].text)
                     params['building_floors'] = floors[0]
                     params['under_ground'] = floors[1]

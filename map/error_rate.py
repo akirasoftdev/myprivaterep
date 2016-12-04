@@ -6,7 +6,9 @@ import logging
 from common.db_connection_builder import DbConnectionBuilder
 from nn_mansion import NnMansion
 from rosenka import Rosenka
-LOG = logging.getLogger(__file__)
+logging.basicConfig()
+LOG = logging.getLogger(__name__)
+LOG.setLevel(logging.INFO)
 LOG.info('START')
 
 class ErrorRate:
@@ -78,15 +80,18 @@ def main():
     host_name = sys.argv[1]
     port_no = sys.argv[2]
     last_modified = sys.argv[3]
+    LOG.info('host_name = ' + host_name)
+    LOG.info('port_no = ' + port_no)
+    LOG.info('last_modified = ' + last_modified)
 
     conn = DbConnectionBuilder.build(host_name, port_no)
     bukkens = query_bukken(conn, last_modified)
     error_rates, stdev_error_rate, mean_error_rate = ErrorRate.calculate(bukkens)
 
-    for low in range(0, 30, 1):
-        count = count_of_error_rate(error_rates, float(low) / 10, float(low+1) / 10)
+    for low in range(0, 10, 1):
+        count = count_of_error_rate(error_rates, 0, float(low+1) / 10)
         if count > 0:
-            LOG.info('%s: %s (%s)' % (low, count, (count * 100 / len(error_rates))))
+            LOG.info('%s: %s (%s)' % (low, count, (float(count * 100) / len(error_rates))))
     LOG.info('total = %s' % (len(error_rates)))
 
     conn.close()

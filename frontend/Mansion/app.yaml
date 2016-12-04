@@ -7,37 +7,9 @@ handlers:
   static_files: Mansion/index.html
   upload: Mansion/index.html
 
-- url: /agreement.html
-  static_files: Mansion/agreement.html
-  upload: Mansion/agreement.html
-
-- url: /app.css
-  static_files: Mansion/app.css
-  upload: Mansion/app.css
-
-- url: /app.js
-  static_files: Mansion/app.js
-  upload: Mansion/app.js
-
-- url: /prediction_controller.js
-  static_files: Mansion/prediction_controller.js
-  upload: Mansion/prediction_controller.js
-
-- url: /inparam_controller.js
-  static_files: Mansion/inparam_controller.js
-  upload: Mansion/inparam_controller.js
-
-- url: /error_controller.js
-  static_files: Mansion/error_controller.js
-  upload: Mansion/error_controller.js
-
-- url: /googlec4011ab7fc110731.html
-  static_files: Mansion/googlec4011ab7fc110731.html
-  upload: Mansion/googlec4011ab7fc110731.html
-
-- url: /sitemap.xml
-  static_files: Mansion/sitemap.xml
-  upload: Mansion/sitemap.xml
+- url: /(.*\.(html|js|css|xml))$
+  static_files: Mansion/\1
+  upload: Mansion/.*\.(html|js|css|xml)$
 
 - url: /.*
   script: main.APP

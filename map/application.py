@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import json
-import logging
 from datetime import datetime
 
 from flask import Flask, request
@@ -16,56 +15,32 @@ from error_rate import ErrorRate
 from nn_mansion import NnMansion
 from rosenka import Rosenka
 import utils
-import error_rate
 
-LOG = logging.getLogger(__file__)
-LOG.info('START')
-
-application = Flask(__name__)
-cors = CORS(application)
-application.config['CORS_HEADERS'] = 'Content-Type'
+app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 rosenka = Rosenka()
 
 
-@application.route('/hello', methods=['GET', 'POST'])
+@app.route('/hello', methods=['GET', 'POST'])
 def hello_world():
-    LOG.info('hello')
+    print('hello')
     return 'hello3'
 
 
-@application.route('/address', methods=['GET'])
+@app.route('/address', methods=['GET'])
 def get_address():
     address = request.args.get('address')
     town_id = _get_town_id(address)
     return str(town_id)
 
 
-@application.route('/error_rate', methods=['GET'])
-def get_error_rate():
-    conn = DbConnectionBuilder.build(consts.HOST_NAME, consts.PORT_NO)
-    try:
-        last_modified = request.args.get('lastModified')
-        bukkens = error_rate.query_bukken(conn, last_modified)
-        error_rates, stdev_error_rate, mean_error_rate = ErrorRate.calculate(bukkens)
-
-        list_of_error_rate = []
-        for low in range(0, 10, 1):
-            count = error_rate.count_of_error_rate(error_rates, 0, float(low + 1) / 10)
-            list_of_error_rate.append([low, count])
-        resbody = {
-            'total': len(error_rates),
-            'error_rates': list_of_error_rate
-        }
-        return json.dumps(resbody, ensure_ascii=False)
-    finally:
-        conn.close()
-
 def _get_town_id(conn, address):
     return Parser.read_town_id(conn, address)
 
 
-@application.route('/howmuch', methods=['GET'])
+@app.route('/howmuch', methods=['GET'])
 def howmuch():
     conn = DbConnectionBuilder.build(consts.HOST_NAME, consts.PORT_NO)
     try:
@@ -73,15 +48,15 @@ def howmuch():
         occupied = request.args.get('occupied')
         walk = request.args.get('walk')
         year = request.args.get('year')
-        LOG.info('address = %(address)s, occupied=%(occupied)s, walk=%(walk)s, year=%(year)s' % request.args)
+        print('address = %(address)s, occupied=%(occupied)s, walk=%(walk)s, year=%(year)s' % request.args)
         town_id = _get_town_id(conn, address)
         rosenka_price = rosenka.get(town_id)
-        LOG.info('town_id = %s, rosenka_price = %s' % (town_id, rosenka_price))
+        print('town_id = %s, rosenka_price = %s' % (town_id, rosenka_price))
         mansion_price = NnMansion.predict(year, occupied, walk, rosenka_price)
-        LOG.info('mansion_price = %s' % mansion_price)
+        print('mansion_price = %s' % mansion_price)
         db_year = utils.to_db_year(datetime.now().year) - int(year)
         db_occupied = int(occupied) * 100
-        LOG.info('db_year = %s, db_occupied = %s' % (db_year, db_occupied))
+        print('db_year = %s, db_occupied = %s' % (db_year, db_occupied))
         """
        closed_bukkens = [{
            'bukkenId': xxx,
@@ -95,22 +70,22 @@ def howmuch():
        """
         closed_bukkens = _find_bukkens_in_close_condition(
             conn, db_year, db_occupied, walk, town_id, rosenka_price)
-        LOG.info('find bukkens in close condition')
+        print('find bukkens in close condition')
 
         # error_rate
         _, stdev_error_rate, _ = ErrorRate.calculate(closed_bukkens)
         error_rate = min(stdev_error_rate, 0.5)
-        LOG.info('calculate error rate')
+        print('calculate error rate')
 
         # [{}]
         bukken_infos = _read_bukkens(
             map(lambda x: x['bukkenId'], closed_bukkens[:5]))
-        LOG.info('read bukken in close condtion')
+        print('read bukken in close condtion')
 
         price_1 = mansion_price - (error_rate * mansion_price)
         price_2 = mansion_price + (error_rate * mansion_price)
-        LOG.info('price_1 = ' + str(price_1))
-        LOG.info('price_2 = ' + str(price_2))
+        print('price_1 = ' + str(price_1))
+        print('price_2 = ' + str(price_2))
         resbody = {
             'price': int(mansion_price),
             'low': int(min(price_1, price_2)),
@@ -157,7 +132,7 @@ def _convert_to_bukken_infos(rows):
     try:
         bukken_infos = []
         for row in rows:
-            LOG.info("stationId : " + str(row['stationId']))
+            print("stationId : " + str(row['stationId']))
             bukken_infos.append({
                 'address': row['address'],
                 'year': str(row['year'].year),
@@ -172,4 +147,4 @@ def _convert_to_bukken_infos(rows):
 
 
 if __name__ == '__main__':
-    application.run(host=consts.ALLOW_HOST)
+    app.run(host=consts.ALLOW_HOST)

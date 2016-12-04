@@ -2,16 +2,14 @@
 import json
 
 import common
+import consts
 from google.appengine.api import urlfetch
 
-from common import RestHandler
 
-
-class QueryHandler(RestHandler):
-    HOST = 'http://mansion-prediction-dev.5grvpjfmbg.ap-northeast-1.elasticbeanstalk.com/'
+class GetHowMuchHandler(common.RestHandler):
 
     def get(self):
-        cls = QueryHandler
+        cls = GetHowMuchHandler
 
         if not common.check_access_count():
             self.response.status_int = 503
@@ -23,7 +21,7 @@ class QueryHandler(RestHandler):
             occupied = self.request.get('occupied')
             walk = self.request.get('walk')
             year = self.request.get('year')
-            urls = cls.HOST + '/howmuch' + '?address=' + address + '&occupied=' + occupied
+            urls = consts.HOST + '/howmuch' + '?address=' + address + '&occupied=' + occupied
             urls += '&walk=' + walk + '&year=' + year
 
             headers = {'Content-Type': 'application/json'}
