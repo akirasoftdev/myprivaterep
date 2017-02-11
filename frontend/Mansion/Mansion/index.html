@@ -9,10 +9,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.js"></script>
     <script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
     <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="utf-8"></script>
-    <script src="app/app.js"></script>
-    <script src="app/controllers/inparam_controller.js"></script>
-    <script src="release/js/main.js"></script>
-    <script src="app/services/error.js"></script>
+    <script src="app.js"></script>
+    <script src="inparam_controller.js"></script>
+    <script src="prediction_controller.js"></script>
+    <script src="error_controller.js"></script>
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -75,21 +75,78 @@
             <button ng-click="clickPrediction()" id="predict">▽ 評価を見る</button>
         </div>
 
-        <div price-directive></div>
-        <p><small>※この予想価格および価格範囲は、独自のアルゴリズムで計算した価格であり、
-        マンションの販売価格を保証するものではございません。</small></p>
-
+        <div id="price_area">
+            <table id="price_table">
+                <tbody>
+                    <tr>
+                        <td>予測価格</td>
+                        <td>
+                            {{main.price | number}}<small>万円</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>価格範囲</td>
+                        <td>
+                            {{main.price_low | number}}<small>万円</small>
+                            ～
+                            {{main.price_high | number}}<small>万円</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p>
+                                ※この予想価格および価格範囲は、独自のアルゴリズムで計算した価格であり、
+                                マンションの販売価格を保証するものではございません。
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
     <section>
         <h2>参考情報</h2>
         <p>入力情報を元に実際に中古マンションの売却サイトに掲載されていた物件の情報を表示します。</p>
-        <div reference-directive></div>
+        <table id='references'>
+            <thead>
+                <tr>
+                    <th>住所</th>
+                    <th>築年</th>
+                    <th>面積(㎡)</th>
+                    <th>駅</th>
+                    <th>徒歩(分)</th>
+                    <th>掲載金額(万円)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ref in main.references">
+                    <td>{{ref.address}}</td>
+                    <td>{{ref.year}}</td>
+                    <td>{{ref.occupiedArea}}</td>
+                    <td>{{ref.station}}</td>
+                    <td>{{ref.walkTime}}</td>
+                    <td>{{ref.price | number}}</td>
+                </tr>
+            </tbody>
+        </table>
     </section>
     <section ng-controller="ErrorCtrl">
         <h2>予測結果の信頼度</h2>
         <div id="error_rate_area">
-          <p><small>当サイトの予測システムを用いて、中古マンションサイトの掲載情報(2016/11/23時点,掲載数: 23,054件)を予測した場合の誤差は下記の通りです。</small></p>
-          <div error-directive></div>
+            <p><small>当サイトの予測システムを用いて、中古マンションサイトの掲載情報(2016/11/23時点,掲載数: 23,054件)を予測した場合の誤差は下記の通りです。</small></p>
+            <table id="error_rate">
+                <thead>
+                    <tr><th>誤差率</th><th>件数</th><th>割合</th></tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="error in error_list">
+                        <td>{{error.class}}</td>
+                        <td>{{error.count | number}}</td>
+                        <td>{{error.percentage}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
     </section>
     <footer>
