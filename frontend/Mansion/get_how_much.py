@@ -19,8 +19,11 @@ class GetHowMuchHandler(common.RestHandler):
         try:
             address = self.request.get('address')
             occupied = self.request.get('occupied')
+            print('occupied=' + occupied)
             walk = self.request.get('walk')
+            print('walk=' + walk)
             year = self.request.get('year')
+            print('year=' + year)
             urls = consts.HOST + '/howmuch' + '?address=' + address + '&occupied=' + occupied
             urls += '&walk=' + walk + '&year=' + year
 
@@ -39,6 +42,7 @@ class GetHowMuchHandler(common.RestHandler):
                 self.response.status_int = result.status_code
                 self.response.write('URL returned status code {}'.format(result.status_code))
 
-        except urlfetch.DownloadError:
+        except urlfetch.DownloadError as e:
+            print(str(e))
             self.response.status_int = 500
             self.response.write('Error fetching URL')

@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="app" lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <title>中古マンションの簡易評価査定サービス</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-resource.js"></script>
+    <script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="utf-8"></script>
+    <script src="application.js"></script>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-87984629-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+</head>
+<body>
+    <header>
+        <h1>中古マンション購入・売却のための簡易評価サービス</h1>
+        <div class="header"></div>
+        <p></p>
+        <p>個人情報の入力は<span class="bold">一切不要</span>で、お気軽に中古マンションの価格を即時に評価します！</p>
+        <p>本サービスは、<a href="agreement.html">ご利用規約</a>に同意された場合のみ利用することができます。</p>
+    </header>
+
+    <section class="content">
+        <h2>中古マンションの情報</h2>
+        <p>以下の入力欄に中古マンションの情報を入力して下さい。</p>
+        <p>査定可能な都道府県は、<b>東京都</b>、<b>神奈川県</b>、<b>埼玉県</b>、<b>千葉県</b>のみです。</p>
+        <post-component></post-component>
+
+        <div id="action_area">
+            <button ng-click="clickPrediction()" id="predict">▽ 評価を見る</button>
+        </div>
+
+        <price-component></price-component>
+    </section>
+    <section>
+        <h2>参考情報</h2>
+        <p>入力情報を元に実際に中古マンションの売却サイトに掲載されていた物件の情報を表示します。</p>
+        <reference-component></reference-component>
+    </section>
+    <section>
+        <h2>予測結果の信頼度</h2>
+        <div id="error_rate_area">
+            <p><small>当サイトの予測システムを用いて、中古マンションサイトの掲載情報(2016/11/23時点,掲載数: 23,054件)を予測した場合の誤差は下記の通りです。</small></p>
+            <error-component></error-component>
+        </div>
+    </section>
+    <footer>
+        <small>Copyright © 2016 飯塚ソフト開発 All Right Reserved.</small><br />
+        <small>iizuka.soft.dev@gmail.com</small>
+    </footer>
+</body>
+</html>

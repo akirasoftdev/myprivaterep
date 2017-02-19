@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('myApp')
+    angular.module('app')
     .controller('PredictionCtrl', function ($scope, $http) {
         sthis = this
         $scope.clickPrediction = function () {

@@ -14,3 +14,10 @@ handlers:
 - url: /.*
   script: main.APP
 
+skip_files:
+- Mansion/app
+- Mansion/bin
+- Mansion/node_modules
+- Mansion/obj
+- Mansion/release
+
